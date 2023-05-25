@@ -3,10 +3,50 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:CompanyManagement"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="TTH Corporation" Height="760" Width="450" WindowStyle="None"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{x:Null}"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}"
+                Margin="25" materialDesign:ElevationAssist.Elevation="Dp4">
+        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
+            <StackPanel>
+
+                <Button HorizontalAlignment="Right" 
+                        Margin="0 20 20 0" 
+                        x:Name="btn_exit" 
+                        ToolTip="Close Application" 
+                        Content="Exit" 
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}"/>
+
+                <Image Margin="0 60 0 5" Source="logo.png" Height="100" Panel.ZIndex="2"/>
+
+                <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28"
+                           FontWeight="Bold" Text="Login" />
+
+                <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" Text="Log in to your exsting account" />
+
+                <TextBox Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18"
+                         materialDesign:HintAssist.Hint="Enter Username" BorderThickness="2"
+                         BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         />
+
+                <PasswordBox Margin="0 20 0 0" x:Name="txtPassword" Width="300" FontSize="18" 
+                             materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2" 
+                             BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                             />
+
+                <Button Margin="0 50 0 0" x:Name="btnLogin" Style="{StaticResource MaterialDesignFlatMidBgButton}" 
+                        materialDesign:ElevationAssist.Elevation="Dp0" 
+                        Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="15"
+                        FontSize="18" Content="LOGIN" />
+
+            </StackPanel>
+        </materialDesign:DialogHost>
+    </materialDesign:Card>
 </Window>
