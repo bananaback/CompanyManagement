@@ -2,7 +2,6 @@
 using CompanyManagement.EF;
 using CompanyManagement.Enums;
 using CompanyManagement.States;
-using CompanyManagement.UI.Hr;
 using CompanyManagement.UI.Manager;
 using CompanyManagement.UI.Staff;
 using System;
@@ -42,8 +41,8 @@ namespace CompanyManagement
             }
             else if (foundEmployee.Role == Role.Hr.ToString())
             {
-                UI_HrForm uI_HrForm = new UI_HrForm();
-                uI_HrForm.Show();
+                //UI_HrForm uI_HrForm = new UI_HrForm();
+                //uI_HrForm.Show();
             }
             else if (foundEmployee.Role == Role.TechLead.ToString())
             {

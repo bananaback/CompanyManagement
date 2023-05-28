@@ -225,6 +225,7 @@
     </Compile>
     <Compile Include="UI\Forms\WorkLeaveForm.xaml.cs">
       <DependentUpon>WorkLeaveForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\StageForm.xaml.cs">
       <DependentUpon>StageForm.xaml</DependentUpon>
     </Compile>
@@ -309,6 +310,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+
+    <Page Include="UI\Forms\WorkLeaveForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+
     <Page Include="UI\Forms\ManagerTaskAssignmentForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -325,7 +332,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Forms\WorkLeaveForm.xaml">
     <Page Include="UI\Forms\StageForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -375,6 +381,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Staff\WorkSessionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Manager\ViewTask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
