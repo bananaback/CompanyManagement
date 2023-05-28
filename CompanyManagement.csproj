@@ -202,6 +202,7 @@
     <Compile Include="Factories\EmployeeFactory.cs" />
     <Compile Include="Factories\ProjectFactory.cs" />
     <Compile Include="Factories\WorkLeaveFactory.cs" />
+    <Compile Include="Factories\WorkSessionFactory.cs" />
     <Compile Include="HelperClasses\FilterChain.cs" />
     <Compile Include="HelperClasses\FilterKey.cs" />
     <Compile Include="Factories\StageFactory.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="ViewModels\TeamPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewTaskPageViewModel.cs" />
+    <Compile Include="ViewModels\WorkSessionPageViewModel.cs" />
     <Compile Include="Wrappers\EmployeeWrapper.cs" />
     <Compile Include="Wrappers\ProjectWrapper.cs" />
     <Compile Include="Wrappers\StageWrapper.cs" />

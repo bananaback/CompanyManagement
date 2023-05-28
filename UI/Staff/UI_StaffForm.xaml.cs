@@ -33,7 +33,7 @@ namespace CompanyManagement.UI.Staff
 
         private void btn_WorkSession_Click(object sender, RoutedEventArgs e)
         {
-            //frameContent.Navigate(new WorkSessionForm());
+            frameContent.Navigate(new WorkSessionForm());
         }
 
         private void btn_LeaveOfAbsence_Click(object sender, RoutedEventArgs e)

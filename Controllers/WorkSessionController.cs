@@ -1,102 +1,140 @@
-﻿namespace CompanyManagement.Controllers
+﻿using CompanyManagement.EF;
+using CompanyManagement.Enums;
+using CompanyManagement.Factories;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using System.Windows;
+
+namespace CompanyManagement.Controllers
 {
     public class WorkSessionController
     {
-        //private readonly EmployeeDAO employeeDAO;
-        //private readonly WorkSessionDAO workSessionDAO;
         public WorkSessionController()
         {
-            //    employeeDAO = new EmployeeDAO();
-            //    workSessionDAO = new WorkSessionDAO();
+
         }
         // Thinking a better name for these function...
-        /*public bool CheckInAndReturnSuccessOrNot(string employeeId)
+        public bool CheckInAndReturnSuccessOrNot(string employeeId)
         {
-            Employee? foundEmployee = employeeDAO.GetOne(employeeId);
-            if (foundEmployee is null)
+            using (var dbContext = new CompanyContext())
             {
-                // Maybe admin deleted this account but client side didn't recornize it
-                MessageBox.Show("EmployeeId not found");
-                return false;
+                var foundEmployee = dbContext.Employees.FirstOrDefault(e => e.ID == employeeId);
+                if (foundEmployee == null)
+                {
+                    MessageBox.Show("EmployeeId not found");
+                    return false;
+                }
+
+                var workSessionStatus = GetWorkSessionStatus(employeeId);
+                if (workSessionStatus == WorkSessionStatus.CheckedIn)
+                {
+                    MessageBox.Show("You already checked in");
+                    return false;
+                }
+
+                var newWorkSession = WorkSessionFactory.CreateWorkSession(employeeId);
+                dbContext.WorkSessions.Add(newWorkSession);
+                dbContext.SaveChanges();
+
+                MessageBox.Show("Check in success");
+                return true;
             }
-            if (GetWorkSessionStatus(employeeId) == WorkSessionStatus.CheckedIn)
-            {
-                MessageBox.Show("You already checked in");
-                return false;
-            }
-            WorkSession newWorkSession = new(employeeId);
-            workSessionDAO.Add(newWorkSession);
-            MessageBox.Show("Check in success");
-            return true;
         }
         public bool CheckOutAndReturnSuccessOrNot(string employeeId)
         {
-            Employee? foundEmployee = employeeDAO.GetOne(employeeId);
-            if (foundEmployee is null)
+            using (var dbContext = new CompanyContext())
             {
-                // Maybe admin deleted this account but client side didn't recornize it
-                MessageBox.Show("EmployeeId not found");
-                return false;
+                var foundEmployee = dbContext.Employees.FirstOrDefault(e => e.ID == employeeId);
+                if (foundEmployee == null)
+                {
+                    MessageBox.Show("EmployeeId not found");
+                    return false;
+                }
+
+                var unfinishedWorkSession = GetUnfinishedWorkSession(employeeId);
+                if (unfinishedWorkSession == null)
+                {
+                    MessageBox.Show("You already checked out");
+                    return false;
+                }
+
+                unfinishedWorkSession.EndingTime = DateTime.Now;
+                dbContext.WorkSessions.AddOrUpdate(unfinishedWorkSession);
+                dbContext.SaveChanges();
+
+                MessageBox.Show("Check out success");
+                return true;
             }
-            WorkSession? unfinishedWorkSession = GetUnfinishedWorkSession(employeeId);
-            if (unfinishedWorkSession is null)
-            {
-                MessageBox.Show("You already checked out");
-                return false;
-            }
-            unfinishedWorkSession.EndingTime = DateTime.Now;
-            workSessionDAO.Modify(unfinishedWorkSession);
-            MessageBox.Show("Check out success");
-            return true;
         }
         public WorkSessionStatus GetWorkSessionStatus(string employeeId)
         {
-            if (GetUnfinishedWorkSession(employeeId) is not null)
+            if (GetUnfinishedWorkSession(employeeId) != null)
             {
                 return WorkSessionStatus.CheckedIn;
             }
             return WorkSessionStatus.CheckedOut;
         }
-        public WorkSession? GetUnfinishedWorkSession(string employeeId)
+        public WorkSession GetUnfinishedWorkSession(string employeeId)
         {
-            // If employee not found return null
-            Employee? foundEmployee = employeeDAO.GetOne(employeeId);
-            if (foundEmployee is null)
+            using (var dbContext = new CompanyContext())
             {
-                // Maybe admin deleted this account but client side didn't recornize it
-                MessageBox.Show("EmployeeId not found");
-                return null;
+                var foundEmployee = dbContext.Employees.Where(e => e.ID == employeeId).FirstOrDefault();
+                if (foundEmployee == null)
+                {
+                    MessageBox.Show("EmployeeId not found");
+                    return null;
+                }
+                var unfinishedWorkSession = dbContext.WorkSessions.FirstOrDefault(ws => ws.EmployeeID == employeeId && (ws.EndingTime == null || ws.EndingTime == DateTime.MinValue));
+                return unfinishedWorkSession;
             }
-            return workSessionDAO.GetUnfinished(employeeId);
         }
-        public List<WorkSession>? GetAllWorkSessions()
+        public List<WorkSession> GetAllWorkSessions()
         {
-            return workSessionDAO.GetAll();
+            using (var dbContext = new CompanyContext())
+            {
+                var workSessions = dbContext.WorkSessions.ToList();
+                return workSessions;
+            }
         }
-        public List<WorkSession>? GetAllWorkSessionsOfAnEmployee(string employeeID)
+
+        public List<WorkSession> GetAllWorkSessionsOfAnEmployee(string employeeID)
         {
-            var result = from workSession in workSessionDAO.GetAll()
-                         where workSession.EmployeeID == employeeID
-                         select workSession;
-            return result.ToList();
+            using (var dbContext = new CompanyContext())
+            {
+                var workSessions = dbContext.WorkSessions.Where(ws => ws.EmployeeID == employeeID).ToList();
+                return workSessions;
+            }
         }
-        public List<WorkSession>? GetAllWorkSessionOfAnEmployeeInSelectedMonth(string employeeID, DateTime dateInMonth)
+
+        public List<WorkSession> GetAllWorkSessionOfAnEmployeeInSelectedMonth(string employeeID, DateTime dateInMonth)
         {
             var startDate = new DateTime(dateInMonth.Year, dateInMonth.Month, 1);
-            DateTime endDate = new DateTime(dateInMonth.Year, dateInMonth.Month, DateTime.DaysInMonth(dateInMonth.Year, dateInMonth.Month));
-            TimeSpan ts = new TimeSpan(23, 59, 59);
-            endDate = endDate.Date + ts;
-            var result = from workSession in workSessionDAO.GetAll() ?? new List<WorkSession>()
-                         where workSession.EmployeeID == employeeID &&
-                         workSession.StartingTime >= startDate &&
-                         workSession.StartingTime <= endDate
-                         select workSession;
-            return result.ToList();
+            var endDate = startDate.AddMonths(1).AddSeconds(-1);
+
+            using (var dbContext = new CompanyContext())
+            {
+                var workSessions = dbContext.WorkSessions
+                    .Where(ws => ws.EmployeeID == employeeID && ws.StartingTime >= startDate && ws.StartingTime <= endDate)
+                    .ToList();
+
+                return workSessions;
+            }
         }
-        public WorkSession? GetLastestWorkSession(string employeeID)
+
+        public WorkSession GetLastestWorkSession(string employeeID)
         {
-            return workSessionDAO.GetLastest(employeeID);
+            using (var dbContext = new CompanyContext())
+            {
+                var lastestWorkSession = dbContext.WorkSessions
+                    .Where(ws => ws.EmployeeID == employeeID)
+                    .OrderByDescending(ws => ws.StartingTime)
+                    .FirstOrDefault();
+
+                return lastestWorkSession;
+            }
         }
-        */
+
     }
 }
