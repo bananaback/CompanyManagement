@@ -1,0 +1,373 @@
+﻿<Page x:Class="CompanyManagement.UI.Staff.InformationForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CompanyManagement.UI.Staff"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="800"
+        Title="InformationForm" >
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!--<Button Style="{StaticResource BtnBack}"
+                x:Name="Back_CLick"
+                Grid.Column="2"
+                Grid.Row="1"
+                HorizontalAlignment="Right"
+                Margin="0 0 40 0"
+                Background="NavajoWhite"
+                Width="80"
+                Click="Edit_Click">
+            <StackPanel Orientation="Horizontal">
+                <Icon:PackIconMaterial 
+                        Kind="AccountEdit"
+                        Style="{StaticResource menuButtonIcon}" 
+                        Height="22" 
+                        Width="25"
+                        Margin="0 0 0 0"/>
+                <TextBlock Text="Edit" FontSize="20" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Button>-->
+        <TextBlock
+            HorizontalAlignment="Center"
+            Margin="0 0 60 0"
+            Text="User Profile"
+            FontFamily="Calibri"
+            FontWeight="SemiBold"
+            FontSize="30"
+            Grid.Row="1"  
+            Grid.Column="0"
+            Grid.ColumnSpan="2"/>
+        <Border Grid.Row="3" 
+                Grid.Column="0"   
+                Margin="20,5,5,5"
+                CornerRadius="20 10 10 10"
+                Background="Snow"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    VerticalAlignment="Bottom"
+                    Margin="40,0,231,96"
+                    Text="ID:"
+                    FontWeight="SemiBold"
+                    FontSize="20" Grid.RowSpan="2"/>
+                <TextBox
+                    IsReadOnly="True"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="265"
+                    Text="{Binding UserId}"
+                    FontWeight="Light"
+                    FontSize="20"
+                    Grid.Row="1"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Margin="40,10,0,0"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="3" 
+                Grid.Column="1"   
+                Margin="5,5,20,5"
+                CornerRadius="10 20 10 10"
+                Background="Snow"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    VerticalAlignment="Bottom"
+                    Margin="40,0,230,96"
+                    Text="Name:"
+                    FontWeight="SemiBold"
+                    FontSize="20" Grid.RowSpan="2"/>
+                <TextBox x:Name="txt_Name"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    IsReadOnly="True"
+                    Text="{Binding UserName}"
+                    FontWeight="Light"
+                    Width="320"
+                    FontSize="20"
+                    Grid.Row="1"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Margin="40,10,0,0"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="4" 
+                Grid.Column="1"   
+                Margin="5,5,20,5"
+                CornerRadius="10"
+                Background="Snow"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock 
+                    Margin="40,0,214,96"
+                    VerticalAlignment="Bottom"
+                    Text="Address:"
+                    FontWeight="SemiBold"
+                    FontSize="20" Grid.RowSpan="2"/>
+                <TextBox x:Name="txt_Address"
+                    IsReadOnly="True"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Text="{Binding UserAddress}"
+                    FontWeight="Light"
+                    Width="320"
+                    FontSize="20"
+                    Grid.Row="1"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Margin="40,10,0,0"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="5" 
+                Grid.Column="0"   
+                Margin="20,5,5,5"
+                CornerRadius="10"
+                Background="Snow"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock 
+                    Margin="40,0,193,96"
+                    VerticalAlignment="Bottom"
+                    Text="Birth:"
+                    FontWeight="SemiBold"
+                    FontSize="20" Grid.RowSpan="2"/>
+                <TextBox x:Name="txt_Birth"
+                    IsReadOnly="True"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Text="{Binding UserBirth}"
+                    FontWeight="Light"
+                    FontSize="20"
+                    Width="265"
+                    Grid.Row="1"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Margin="40,10,0,0"/>
+            </Grid>
+        </Border>
+
+        <Border CornerRadius="10 10 20 10"
+                Background="Snow"
+                Grid.Row="6" 
+                Grid.Column="1"   
+                Margin="5,5,20,5"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    VerticalAlignment="Bottom"
+                    Text="Status:"
+                    FontWeight="SemiBold"
+                    Margin="40,0,0,90"
+                    FontSize="20" HorizontalAlignment="Left" Grid.RowSpan="2" Width="65"/>
+                <TextBox x:Name="txt_Status"
+                    IsReadOnly="True"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Text="{Binding UserStatus}"
+                    Width="320"
+                    FontWeight="Light"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                    FontSize="20"
+                    Grid.Row="1"
+                    Margin="40,10,0,0"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="6" 
+                Grid.Column="0"   
+                Margin="20,5,5,5"
+                CornerRadius="10 10 10 20"
+                Background="Snow"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="40,0,199,96"
+                    VerticalAlignment="Bottom"
+                    Text="Role:"
+                    FontWeight="SemiBold"
+                    FontSize="20" Grid.RowSpan="2"/>
+                <ComboBox IsEnabled="False"
+                          Name="cbb_Role"
+                          Grid.Row="1"
+                          Width="265"
+                          Height="60"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          Margin="40 10 0 0"
+                          FontSize="20"
+                          FontWeight="Light"
+                          BorderThickness="2"
+                          BorderBrush="{DynamicResource MaterialDesignDivider}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          ItemsSource="{Binding RoleList}"
+                          SelectedItem="{Binding UserRole}"
+                          >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <!--<TextBox x:Name="txt_Role"
+                    IsReadOnly="True"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Text="{Binding UserRole}"
+                    FontWeight="Light"
+                    FontSize="20"
+                    Width="265"
+                    Grid.Row="1"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Margin="40,10,0,0"/>-->
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="5" 
+                Grid.Column="1"   
+                Margin="5,5,20,5"
+                CornerRadius="10"
+                Background="Snow"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="40,0,206,96"
+                    VerticalAlignment="Bottom"
+                    Text="Password:"
+                    FontWeight="SemiBold"
+                    FontSize="20" Grid.RowSpan="2"/>
+                <PasswordBox
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="320"
+                    FontWeight="Light"
+                    FontSize="20"
+                    Grid.Row="1"
+                    BorderThickness="2" 
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                    Margin="40,10,0,0"
+                    IsEnabled="False"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="4" 
+                Grid.Column="0"   
+                Margin="20,5,5,5"
+                CornerRadius="10"
+                Background="Snow"
+                BorderThickness="1"
+                BorderBrush="Gainsboro">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="40,0,159,96"
+                    VerticalAlignment="Bottom"
+                    Text="Gender:"
+                    FontWeight="SemiBold"
+                    FontSize="20" Grid.RowSpan="2"/>
+                <ComboBox IsEnabled="False"
+                          x:Name="cbb_Gender"
+                          Grid.Row="1"
+                          Width="265"
+                          Height="60"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          Margin="40 10 0 0"
+                          FontSize="20"
+                          FontWeight="Light"
+                          BorderThickness="2"
+                          BorderBrush="{DynamicResource MaterialDesignDivider}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          ItemsSource="{Binding GenderList}"
+                          SelectedItem="{Binding UserGender}"
+                          >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <!--<TextBox x:Name="txt_Gender"
+                    IsReadOnly="True"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Text="{Binding UserGender}"
+                    FontWeight="Light"
+                    Width="265"
+                    FontSize="20"
+                    Grid.Row="1"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                    Margin="40,10,0,0"/>-->
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

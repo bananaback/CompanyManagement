@@ -2,6 +2,7 @@
 using CompanyManagement.Enums;
 using CompanyManagement.States;
 using CuoiKi.States;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -53,6 +54,10 @@ namespace CUOIKI_EF.Controllers
             else if (entry is WorkSession)
             {
                 db.WorkSessions.AddOrUpdate(entry as WorkSession);
+            }
+            else if (entry is WorkLeaf)
+            {
+                db.WorkLeaves.AddOrUpdate(entry as WorkLeaf);
             }
 
             db.SaveChanges();
@@ -192,6 +197,17 @@ namespace CUOIKI_EF.Controllers
                     .ToList();
                 return tasks;
             }
+        }
+
+        public Salary GetSalaryOfEmployee(string employeeID)
+        {
+            return db.Salaries.Where(x => x.ID == employeeID).FirstOrDefault();
+        }
+
+        public List<Task> GetDelayedTasksOfEmployee(string employeeID, DateTime startTime, DateTime endTime)
+        {
+            string unfinishedTaskStatus = EnumMapper.mapToString(TaskStatus.WIP);
+            return db.Tasks.Where(x => x.Assignee == employeeID && x.Status == unfinishedTaskStatus && x.EndingTime < endTime && x.StartingTime > startTime).ToList();
         }
 
     }

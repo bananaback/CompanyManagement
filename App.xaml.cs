@@ -14,8 +14,10 @@ namespace CompanyManagement
         {
             using (var db = new CompanyContext())
             {
-                Employee employee = EmployeeFactory.Create("mng1", "Tin", "Binh Dinh", Enums.EmployeeStatus.Active, "123", Enums.Gender.Male, Enums.Role.Manager);
-                db.Employees.AddOrUpdate(employee);
+                Employee mng1 = EmployeeFactory.Create("mng1", "Tin", "Binh Dinh", Enums.EmployeeStatus.Active, "123", Enums.Gender.Male, Enums.Role.Manager);
+                db.Employees.AddOrUpdate(mng1);
+                Employee dev1 = EmployeeFactory.Create("dev1", "Hung", "Long Xuyen", Enums.EmployeeStatus.Active, "123", Enums.Gender.Male, Enums.Role.Dev);
+                db.Employees.AddOrUpdate(dev1);
                 db.SaveChanges();
             }
             base.OnStartup(e);

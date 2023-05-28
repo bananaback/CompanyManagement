@@ -3,6 +3,7 @@ using CompanyManagement.EF;
 using CompanyManagement.Enums;
 using CompanyManagement.States;
 using CompanyManagement.UI.Manager;
+using CompanyManagement.UI.Staff;
 using System;
 using System.Windows;
 
@@ -50,8 +51,8 @@ namespace CompanyManagement
             }
             else
             {
-                //UI_StaffForm uI_StaffForm = new UI_StaffForm();
-                //uI_StaffForm.Show();
+                UI_StaffForm uI_StaffForm = new UI_StaffForm();
+                uI_StaffForm.Show();
             }
             this.Close();
         }

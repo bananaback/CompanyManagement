@@ -1,0 +1,164 @@
+﻿<Page x:Class="CompanyManagement.UI.Staff.LeaveOfAbsenceForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CompanyManagement.UI.Staff"
+      mc:Ignorable="d" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LeaveOfAbsenceForm">
+
+    <Page.Resources>
+        <Style x:Key="DeleteButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Width="24" Height="24" BorderThickness="0" Background="Transparent">
+                            <Icon:PackIconMaterial x:Name="icon" Kind="DeleteForever" Width="16" Height="16" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0074cc"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Your work leaves"
+               FontSize="36"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button Grid.Column="2" 
+                Width="120" 
+                HorizontalAlignment="Right" 
+                Margin="0 0 20 0"
+                Content="Add"
+                Command="{Binding CmdAddWorkLeave}"
+                ></Button>
+        <TextBlock Grid.Row="1" Text="Filter" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ComboBox SelectedItem="{Binding SelectedFilter}" SelectedIndex="0" ItemsSource="{Binding FilterOptions}">
+
+            </ComboBox>
+            <Button Grid.Row="1" Command="{Binding CmdAddFilter}" Content="Add filter"></Button>
+        </Grid>
+        <ListView ItemsSource="{Binding FilterList}" Grid.Row="1" Grid.Column="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#e1ecf4" Width="auto" Height="35" Padding="5" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Width="auto" VerticalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding}" Width="auto"></TextBlock>
+                            <Button CommandParameter="{Binding}" Command="{Binding DataContext.CmdRemoveFilterItem, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" Width="24" Height="24" Margin="5 0" Style="{StaticResource DeleteButtonStyle}"></Button>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Row="2" 
+              Grid.RowSpan="3"
+              Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="91*"/>
+                <ColumnDefinition Width="69*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="DataGridview" ItemsSource="{Binding FilteredWorkLeave}"
+          AutoGenerateColumns="False"
+          IsReadOnly="True"
+          Width="745"
+          Height="350"
+          Background="LightGray"
+          CanUserResizeColumns="False"
+          ScrollViewer.CanContentScroll="False"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+          Grid.ColumnSpan="2" Margin="28,65,28,65">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+                                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Storyboard x:Key="SlideInFromRight">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                                           Storyboard.TargetName="StackPanelButtons">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="300"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeID}" Width="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Padding" Value="15"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Start date" Binding="{Binding FromDate, StringFormat=d}" Width="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Padding" Value="15"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="End date" Binding="{Binding ToDate, StringFormat=d}" Width="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Padding" Value="15"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Reason" Binding="{Binding ReasonOfLeave}" Width="*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Padding" Value="15"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Page>
