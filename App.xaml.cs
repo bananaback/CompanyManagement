@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CompanyManagement.EF;
+using CompanyManagement.Factories;
+using System.Data.Entity.Migrations;
 using System.Windows;
 
 namespace CompanyManagement
@@ -13,5 +10,15 @@ namespace CompanyManagement
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            using (var db = new CompanyContext())
+            {
+                Employee employee = EmployeeFactory.Create("mng1", "Tin", "Binh Dinh", Enums.EmployeeStatus.Active, "123", Enums.Gender.Male, Enums.Role.Manager);
+                db.Employees.AddOrUpdate(employee);
+                db.SaveChanges();
+            }
+            base.OnStartup(e);
+        }
     }
 }
