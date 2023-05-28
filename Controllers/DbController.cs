@@ -2,6 +2,7 @@
 using CompanyManagement.Enums;
 using CompanyManagement.States;
 using CuoiKi.States;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -68,11 +69,15 @@ namespace CUOIKI_EF.Controllers
             }
             else if (entry is Stage)
             {
-                db.Stages.Remove(entry as Stage);
+                Stage se = (entry as Stage);
+                var y = (from x in db.Stages where x.ID == se.ID select x).First();
+                db.Stages.Remove(y);
             }
             else if (entry is Team)
             {
-                db.Teams.Remove(entry as Team);
+                Team te = (entry as Team);
+                var y = (from x in db.Teams where x.ID == te.ID select x).First();
+                db.Teams.Remove(y);
             }
             else if (entry is TeamMember)
             {
@@ -194,5 +199,160 @@ namespace CUOIKI_EF.Controllers
             }
         }
 
+        public List<Stage> GetStagesOfProject(Project selectedProject)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var stages = db.Stages.Where(p => p.ProjectID == selectedProject.ID).ToList();
+                return stages;
+            }
+        }
+
+        public List<Task> GetAllTaskOfStage(string ID)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var tasks = dbContext.Tasks
+                    .Join(dbContext.Teams, t => t.TeamID, team => team.ID, (t, team) => new { Task = t, Team = team })
+                    .Join(dbContext.Stages, tt => tt.Team.StageID, stage => stage.ID, (tt, stage) => new { tt.Task, Team = tt.Team, Stage = stage })
+                    .Where(st => st.Stage.ID == ID)
+                    .Select(stt => stt.Task)
+                    .ToList();
+                return tasks;
+            }
+        }
+        public List<Employee> GetAllEmployeeOfARole(Role role)
+        {
+            string roleAsString = EnumMapper.mapToString(role);
+            using (var dbContext = new CompanyContext())
+            {
+                var employees = dbContext.Employees
+                    .Where(e => e.Role == roleAsString)
+                    .ToList();
+                return employees;
+            }
+        }
+        public List<Team> GetTeamsOfAStage(Stage stage)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var teams = dbContext.Teams
+                    .Where(t => t.StageID == stage.ID)
+                    .ToList();
+
+                return teams;
+            }
+        }
+        public List<Task> GetAllTaskOfTeam(string teamID)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var tasks = dbContext.Tasks
+                    .Where(t => t.TeamID == teamID)
+                    .ToList();
+
+                return tasks;
+            }
+        }
+        public void AddTeamMembersToTeam(string teamID, List<string> employeeIDs)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var team = dbContext.Teams.FirstOrDefault(t => t.ID == teamID);
+                if (team == null)
+                {
+                    // Handle the case when the team does not exist
+                    return;
+                }
+
+                foreach (string eID in employeeIDs)
+                {
+                    var employee = dbContext.Employees.FirstOrDefault(e => e.ID == eID);
+                    if (employee != null)
+                    {
+                        var teamMember = new TeamMember
+                        {
+                            ID = "TeamMember" + teamID + new Random().Next(1000, int.MaxValue).ToString(),
+                            TeamID = teamID,
+                            EmployeeID = eID
+                        };
+                        dbContext.TeamMembers.AddOrUpdate(teamMember);
+                    }
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+        public void RemoveTeamMembers(List<string> toBeRemovedTeamMemberIDs)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var teamMembers = dbContext.TeamMembers
+                    .Where(tm => toBeRemovedTeamMemberIDs.Contains(tm.ID))
+                    .ToList();
+
+                dbContext.TeamMembers.RemoveRange(teamMembers);
+                dbContext.SaveChanges();
+            }
+        }
+        public List<TeamMember> GetAllMembersOfTeam(Team team)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var teamMembers = dbContext.TeamMembers
+                    .Where(tm => tm.TeamID == team.ID)
+                    .ToList();
+
+                return teamMembers;
+            }
+        }
+        public List<Employee> GetAllWorkers()
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var roles = new List<string>
+                {
+                    EnumMapper.mapToString(Role.TechLead),
+                    EnumMapper.mapToString(Role.Dev),
+                    EnumMapper.mapToString(Role.Designer),
+                    EnumMapper.mapToString(Role.Tester),
+                    EnumMapper.mapToString(Role.Staff)
+                };
+
+                var workers = dbContext.Employees
+                    .Where(e => roles.Contains(e.Role))
+                    .ToList();
+
+                return workers;
+            }
+        }
+
+        public string GetTeamName(string teamID)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var team = dbContext.Teams.FirstOrDefault(t => t.ID == teamID);
+                return team?.Name;
+            }
+        }
+        public Employee GetTeamMemberDetails(TeamMember teamMember)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var employee = dbContext.Employees.FirstOrDefault(e => e.ID == teamMember.EmployeeID);
+                return employee;
+            }
+        }
+        public List<Task> GetAssignedJobsByManagerToEmployee(string assignerID, string assigneeID)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var tasks = dbContext.Tasks
+                    .Where(t => t.Assigner == assignerID && t.Assignee == assigneeID)
+                    .ToList();
+
+                return tasks;
+            }
+        }
     }
 }
