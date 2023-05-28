@@ -30,7 +30,7 @@ namespace CompanyManagement.UI.Manager
 
         private void btn_AssignTask_click(object sender, RoutedEventArgs e)
         {
-            //frameContent.Navigate(new ProjectsPage());
+            frameContent.Navigate(new ProjectPage());
         }
         public void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
