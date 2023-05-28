@@ -200,6 +200,9 @@
     <Compile Include="HelperClasses\RelayCommand.cs" />
     <Compile Include="States\LoginInfoState.cs" />
     <Compile Include="States\TaskAssignmentState.cs" />
+    <Compile Include="UI\Forms\ProjectForm.xaml.cs">
+      <DependentUpon>ProjectForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Manager\ProjectPage.xaml.cs">
       <DependentUpon>ProjectPage.xaml</DependentUpon>
     </Compile>
@@ -235,6 +238,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Forms\ProjectForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Manager\ProjectPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -62,7 +62,9 @@ namespace CUOIKI_EF.Controllers
         {
             if (entry is Project)
             {
-                db.Projects.Remove(entry as Project);
+                Project pe = (entry as Project);
+                var y = (from x in db.Projects where x.ID == pe.ID select x).First();
+                db.Projects.Remove(y);
             }
             else if (entry is Stage)
             {
