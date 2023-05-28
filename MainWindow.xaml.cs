@@ -4,7 +4,7 @@ using CompanyManagement.Enums;
 using CompanyManagement.States;
 using CompanyManagement.UI.Manager;
 using CompanyManagement.UI.Staff;
-using CompanyManagement.UI.Techlead;
+using CompanyManagement.UI.TechLead;
 using System;
 using System.Windows;
 
