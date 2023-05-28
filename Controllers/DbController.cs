@@ -12,7 +12,7 @@ namespace CUOIKI_EF.Controllers
     {
         private static DbController instance;
         private static CompanyContext db;
-        private DbController()
+        public DbController()
         {
             db = new CompanyContext();
         }
@@ -165,5 +165,32 @@ namespace CUOIKI_EF.Controllers
         {
             return db.Tasks.Where(x => x.Assignee == employeeID).ToList();
         }
+
+        public List<Project> GetProjectsOfAccount(string ID)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var projects = dbContext.Projects
+                    .Where(p => p.ManagerID == ID)
+                    .ToList();
+                return projects;
+            }
+        }
+
+        public List<Task> GetAllTaskOfProject(string ID)
+        {
+            using (var dbContext = new CompanyContext())
+            {
+                var tasks = dbContext.Tasks
+                    .Join(dbContext.Teams, t => t.TeamID, team => team.ID, (t, team) => new { Task = t, Team = team })
+                    .Join(dbContext.Stages, tt => tt.Team.StageID, stage => stage.ID, (tt, stage) => new { tt.Task, Team = tt.Team, Stage = stage })
+                    .Join(dbContext.Projects, ttt => ttt.Stage.ProjectID, project => project.ID, (ttt, project) => new { ttt.Task, Team = ttt.Team, Stage = ttt.Stage, Project = project })
+                    .Where(ptsp => ptsp.Project.ID == ID)
+                    .Select(ptst => ptst.Task)
+                    .ToList();
+                return tasks;
+            }
+        }
+
     }
 }

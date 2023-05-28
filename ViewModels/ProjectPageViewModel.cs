@@ -1,7 +1,9 @@
 ﻿using CompanyManagement.EF;
+using CompanyManagement.Enums;
 using CompanyManagement.Factories;
 using CompanyManagement.HelperClasses;
 using CompanyManagement.States;
+using CompanyManagement.Wrappers;
 using CuoiKi.States;
 using CUOIKI_EF.Controllers;
 using System.Collections.Generic;
@@ -13,24 +15,47 @@ namespace CompanyManagement.ViewModels
 {
     public class ProjectPageViewModel : ViewModelBase
     {
-        private DbController _dbController;
+        private readonly DbController dbController;
         private List<Project> _projectList;
+        private List<ProjectWrapper> _projectWrappers;
+        public List<ProjectWrapper> ProjectWrappers
+        {
+            get => _projectWrappers;
+            set
+            {
+                _projectWrappers = value;
+                OnPropertyChanged(nameof(ProjectWrappers));
+            }
+        }
         private string _projectID = "";
         private Visibility _VisID = Visibility.Collapsed;
-
+        private string _currentManagerID = "";
         public ProjectPageViewModel()
         {
-            _dbController = DbController.Instance;
+            dbController = new DbController();
+            _currentManagerID = LoginInfoState.Id;
             _projectList = new List<Project>();
+            _projectWrappers = new List<ProjectWrapper>();
+            ProjectWrappers = new List<ProjectWrapper>();
             fetchProjectList();
         }
-
         private void fetchProjectList()
         {
             _projectList.Clear();
-            ProjectList = _dbController.GetProjectsOfCurrentUser();
+            _projectList = dbController.GetProjectsOfAccount(LoginInfoState.Id);
+            _projectWrappers.Clear();
+            ProjectWrappers.Clear();
+            for (int i = 0; i < _projectList.Count; i++)
+            {
+                ProjectWrapper projectWrapper = new ProjectWrapper(_projectList[i]);
+                List<Task> tasks = dbController.GetAllTaskOfProject(projectWrapper.ID);
+                int percentDone = 0;
+                if (tasks != null && tasks.Count != 0) percentDone = (tasks.Where(t => t.Status == EnumMapper.mapToString(Enums.TaskStatus.Done)).Count() * 100 / tasks.Count);
+                projectWrapper.InitializeUI(percentDone);
+                _projectWrappers.Add(projectWrapper);
+            }
+            ProjectWrappers = new List<ProjectWrapper>(_projectWrappers);
         }
-
         public string ProjectID
         {
             get { return _projectID; }
@@ -45,26 +70,19 @@ namespace CompanyManagement.ViewModels
                 OnPropertyChanged(nameof(ProjectID));
             }
         }
-
         public Visibility VisID
         {
             get { return _VisID; }
             set { _VisID = value; OnPropertyChanged(nameof(VisID)); }
         }
-        public List<Project> ProjectList
-        {
-            get { return _projectList; }
-            set
-            {
-                _projectList = value;
-                OnPropertyChanged(nameof(ProjectList));
-            }
-        }
-
         public string CurrentManagerID
         {
-            get => LoginInfoState.Id;
-            set { }
+            get => _currentManagerID;
+            set
+            {
+                _currentManagerID = value;
+                OnPropertyChanged(nameof(CurrentManagerID));
+            }
         }
 
         #region Save project logic
@@ -92,12 +110,10 @@ namespace CompanyManagement.ViewModels
         }
         public void SaveProject()
         {
-            Project project
-                = TaskAssignmentState.SelectedProject ?? ProjectFactory.Create(CurrentManagerID, ToBeSavedProjectName, ToBeSavedProjectDescription);
+            Project project = TaskAssignmentState.SelectedProject ?? ProjectFactory.CreateNewProject(ToBeSavedProjectName, ToBeSavedProjectDescription);
             project.Name = ToBeSavedProjectName;
             project.Description = ToBeSavedProjectDescription;
-
-            _dbController.Save(project);
+            dbController.Save(project);
             fetchProjectList();
         }
 
@@ -110,8 +126,8 @@ namespace CompanyManagement.ViewModels
                 if (_saveProjectCommand == null)
                 {
                     _saveProjectCommand = new RelayCommand(
-                    p => this.canSaveProject,
-                    p => this.SaveProject());
+                        p => this.canSaveProject,
+                        p => this.SaveProject());
                 }
                 return _saveProjectCommand;
             }
@@ -134,9 +150,9 @@ namespace CompanyManagement.ViewModels
                 if (_projectItemClickCommand == null)
                 {
                     _projectItemClickCommand = new RelayCommand(
-                       obj => canProjectItemClick,
-                       obj => SaveProjectIdToState(obj)
-                   );
+                        obj => canProjectItemClick,
+                        obj => SaveProjectIdToState(obj)
+                    );
                 }
                 return _projectItemClickCommand;
             }
@@ -146,7 +162,7 @@ namespace CompanyManagement.ViewModels
         {
             if (parameter == null) { return; }
             var projectId = parameter as string;
-            TaskAssignmentState.SelectedProject = _projectList.Where(x => x.ID == projectId).First();
+            TaskAssignmentState.SelectedProject = _projectList.Where(x => x.ID == projectId).ElementAt(0);
             ToBeSavedProjectDescription = TaskAssignmentState.SelectedProject.Description;
             ToBeSavedProjectName = TaskAssignmentState.SelectedProject.Name;
             ProjectID = TaskAssignmentState.SelectedProject.ID;
@@ -154,19 +170,20 @@ namespace CompanyManagement.ViewModels
         #endregion
 
         #region Add Project Click logic
-        private ICommand _AddProjectClickCommand;
+        private ICommand _addProjectClickCommand;
+
         public ICommand AddProjectClickCommand
         {
             get
             {
-                if (_AddProjectClickCommand == null)
+                if (_addProjectClickCommand == null)
                 {
-                    _AddProjectClickCommand = new RelayCommand(
+                    _addProjectClickCommand = new RelayCommand(
                         p => true,
                         p => OpenAddProjectForm()
                     );
                 }
-                return _AddProjectClickCommand;
+                return _addProjectClickCommand;
             }
         }
 
@@ -183,8 +200,13 @@ namespace CompanyManagement.ViewModels
 
         #region Context menu command functions
         // Can execute variables
+        private bool canViewProject = true;
         private bool canEditProject = true;
         private bool canDeleteProject = true;
+        private void ViewProject()
+        {
+            TaskAssignmentState.SelectedProject = _projectList.Where(x => x.ID == ProjectID).ElementAt(0);
+        }
         private void EditProject()
         {
             //var prjForm = new ProjectForm(this);
@@ -192,11 +214,27 @@ namespace CompanyManagement.ViewModels
         }
         private void DeleteProject()
         {
-            MessageBox.Show("Delete project");
+            dbController.Delete(TaskAssignmentState.SelectedProject);
+            fetchProjectList();
         }
         #endregion
 
         #region Context menu commands
+        private ICommand _cmdViewProject;
+        public ICommand CmdViewProject
+        {
+            get
+            {
+                if (_cmdViewProject == null)
+                {
+                    _cmdViewProject = new RelayCommand(
+                        p => canViewProject,
+                        p => ViewProject()
+                    );
+                }
+                return _cmdViewProject;
+            }
+        }
         private ICommand _cmdEditProject;
         public ICommand CmdEditProject
         {
@@ -206,8 +244,7 @@ namespace CompanyManagement.ViewModels
                 {
                     _cmdEditProject = new RelayCommand(
                         p => canEditProject,
-                        p => EditProject()
-                    );
+                        p => EditProject());
                 }
                 return _cmdEditProject;
             }
@@ -220,12 +257,32 @@ namespace CompanyManagement.ViewModels
                 if (_cmdDeleteProject == null)
                 {
                     _cmdDeleteProject = new RelayCommand(
-                    p => canDeleteProject,
-                    p => DeleteProject());
+                        p => canDeleteProject,
+                        p => DeleteProject());
                 }
                 return _cmdDeleteProject;
             }
         }
         #endregion
+
+        private ICommand _reloadCommand;
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                if (_reloadCommand == null)
+                {
+                    _reloadCommand = new RelayCommand(
+                        p => true,
+                        p => Reload());
+                }
+                return _reloadCommand;
+            }
+        }
+
+        private void Reload()
+        {
+            fetchProjectList();
+        }
     }
 }
