@@ -204,7 +204,6 @@
     <Compile Include="Factories\WorkLeaveFactory.cs" />
     <Compile Include="HelperClasses\FilterChain.cs" />
     <Compile Include="HelperClasses\FilterKey.cs" />
-
     <Compile Include="Factories\StageFactory.cs" />
     <Compile Include="Factories\TaskFactory.cs" />
     <Compile Include="Factories\TeamFactory.cs" />
@@ -265,6 +264,9 @@
     <Compile Include="UI\Staff\WorkSessionForm.xaml.cs">
       <DependentUpon>WorkSessionForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TechLead\UI_TechLeadForm.xaml.cs">
+      <DependentUpon>UI_TechLeadForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\LeaveOfAbsenceViewModel.cs" />
     <Compile Include="ViewModels\ProjectPageViewModel.cs" />
     <Compile Include="ViewModels\SalaryPageViewModel.cs" />
@@ -310,12 +312,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-
     <Page Include="UI\Forms\WorkLeaveForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-
     <Page Include="UI\Forms\ManagerTaskAssignmentForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -385,6 +385,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Manager\ViewTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TechLead\UI_TechLeadForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
