@@ -4,7 +4,6 @@ using CompanyManagement.Enums;
 using CompanyManagement.States;
 using CompanyManagement.UI.Manager;
 using CompanyManagement.UI.Staff;
-using CompanyManagement.UI.Techlead;
 using System;
 using System.Windows;
 
@@ -47,8 +46,8 @@ namespace CompanyManagement
             }
             else if (foundEmployee.Role == Role.TechLead.ToString())
             {
-                UI_TechLeadForm uI_TechLeadForm = new UI_TechLeadForm();
-                uI_TechLeadForm.Show();
+                //UI_TechLeadForm uI_TechLeadForm = new UI_TechLeadForm();
+                //uI_TechLeadForm.Show();
             }
             else
             {

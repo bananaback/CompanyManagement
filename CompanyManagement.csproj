@@ -264,9 +264,6 @@
     <Compile Include="UI\Staff\WorkSessionForm.xaml.cs">
       <DependentUpon>WorkSessionForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TechLead\UI_TechLeadForm.xaml.cs">
-      <DependentUpon>UI_TechLeadForm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\LeaveOfAbsenceViewModel.cs" />
     <Compile Include="ViewModels\ProjectPageViewModel.cs" />
     <Compile Include="ViewModels\SalaryPageViewModel.cs" />
@@ -388,10 +385,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\TechLead\UI_TechLeadForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -426,7 +419,9 @@
   <ItemGroup>
     <Resource Include="UI\Staff\account.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\TechLead\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
