@@ -208,6 +208,8 @@
     </Compile>
     <Compile Include="ViewModels\ProjectPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Wrappers\ProjectWrapper.cs" />
+    <Compile Include="Wrappers\Wrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
