@@ -369,5 +369,21 @@ namespace CUOIKI_EF.Controllers
                 return tasks;
             }
         }
+
+        public List<Project> GetAllProjectsOfTechLead(string tlID)
+        {
+            return (from project in db.Projects
+                    join stage in db.Stages on project.ID equals stage.ProjectID
+                    join team in db.Teams on stage.ID equals team.StageID
+                    where team.TechLeadID == tlID
+                    select project).ToList();
+        }
+
+        public List<Team> GetTeamsOfStage(Stage stage)
+        {
+            return (from team in db.Teams
+                    where team.StageID == stage.ID
+                    select team).ToList();
+        }
     }
 }
