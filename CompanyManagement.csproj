@@ -190,6 +190,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DTO\WorkerDTO.cs" />
     <Compile Include="Enums\EmployeeStatus.cs" />
     <Compile Include="Enums\EnumMapper.cs" />
     <Compile Include="Enums\FilterLogicType.cs" />
@@ -203,9 +204,19 @@
     <Compile Include="Factories\WorkLeaveFactory.cs" />
     <Compile Include="HelperClasses\FilterChain.cs" />
     <Compile Include="HelperClasses\FilterKey.cs" />
+
+    <Compile Include="Factories\StageFactory.cs" />
+    <Compile Include="Factories\TaskFactory.cs" />
+    <Compile Include="Factories\TeamFactory.cs" />
     <Compile Include="HelperClasses\RelayCommand.cs" />
     <Compile Include="States\LoginInfoState.cs" />
     <Compile Include="States\TaskAssignmentState.cs" />
+    <Compile Include="UI\Forms\ManagerTaskAssignmentForm.xaml.cs">
+      <DependentUpon>ManagerTaskAssignmentForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ManageTeamMemberForm.xaml.cs">
+      <DependentUpon>ManageTeamMemberForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\ProjectForm.xaml.cs">
       <DependentUpon>ProjectForm.xaml</DependentUpon>
     </Compile>
@@ -214,9 +225,26 @@
     </Compile>
     <Compile Include="UI\Forms\WorkLeaveForm.xaml.cs">
       <DependentUpon>WorkLeaveForm.xaml</DependentUpon>
+    <Compile Include="UI\Forms\StageForm.xaml.cs">
+      <DependentUpon>StageForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\TeamForm.xaml.cs">
+      <DependentUpon>TeamForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Manager\AssignTaskPage.xaml.cs">
+      <DependentUpon>AssignTaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Manager\ManagerViewInfomationPage.xaml.cs">
+      <DependentUpon>ManagerViewInfomationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Manager\ProjectPage.xaml.cs">
       <DependentUpon>ProjectPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Manager\StagePage.xaml.cs">
+      <DependentUpon>StagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Manager\TaskAssignmentPage.xaml.cs">
+      <DependentUpon>TaskAssignmentPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Manager\UI_ManagerForm.xaml.cs">
       <DependentUpon>UI_ManagerForm.xaml</DependentUpon>
@@ -241,8 +269,20 @@
     <Compile Include="ViewModels\SalaryPageViewModel.cs" />
     <Compile Include="ViewModels\StaffTaskManagementPageViewModel.cs" />
     <Compile Include="ViewModels\UserInformationViewModel.cs" />
+    <Compile Include="UI\Manager\ViewTask.xaml.cs">
+      <DependentUpon>ViewTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ManagerViewInformationViewModel.cs" />
+    <Compile Include="ViewModels\ProjectPageViewModel.cs" />
+    <Compile Include="ViewModels\StagePageViewModel.cs" />
+    <Compile Include="ViewModels\TeamMemberPageViewModel.cs" />
+    <Compile Include="ViewModels\TeamPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewTaskPageViewModel.cs" />
+    <Compile Include="Wrappers\EmployeeWrapper.cs" />
     <Compile Include="Wrappers\ProjectWrapper.cs" />
+    <Compile Include="Wrappers\StageWrapper.cs" />
+    <Compile Include="Wrappers\TeamWrapper.cs" />
     <Compile Include="Wrappers\Wrapper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -269,6 +309,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Forms\ManagerTaskAssignmentForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Forms\ManageTeamMemberForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Forms\ProjectForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -278,10 +326,31 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Forms\WorkLeaveForm.xaml">
+    <Page Include="UI\Forms\StageForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Forms\TeamForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Manager\AssignTaskPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Manager\ManagerViewInfomationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Manager\ProjectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Manager\StagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Manager\TaskAssignmentPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,6 +375,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Staff\WorkSessionForm.xaml">
+    <Page Include="UI\Manager\ViewTask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -343,6 +413,7 @@
   <ItemGroup>
     <Resource Include="UI\Staff\account.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

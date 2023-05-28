@@ -1,4 +1,5 @@
-﻿using CompanyManagement.ViewModels;
+﻿using CompanyManagement.UI.Forms;
+using CompanyManagement.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,20 +18,20 @@ namespace CompanyManagement.UI.Manager
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //var projectEditorWindow = new ProjectForm(this.DataContext as ProjectsPageViewModel);
-            //projectEditorWindow.Show();
+            var projectEditorWindow = new ProjectForm(this.DataContext as ProjectPageViewModel);
+            projectEditorWindow.Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
             btn.Command.Execute(btn.CommandParameter);
-            //NavigationService.Navigate(new StagesPage());
+            NavigationService.Navigate(new StagePage());
         }
 
         private void ViewMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            //NavigationService.Navigate(new StagesPage());
+            NavigationService.Navigate(new StagePage());
         }
 
         private void Button_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
