@@ -3,6 +3,7 @@ using CompanyManagement.Enums;
 using CompanyManagement.Factories;
 using CompanyManagement.HelperClasses;
 using CompanyManagement.States;
+using CompanyManagement.UI.Forms;
 using CompanyManagement.Wrappers;
 using CuoiKi.States;
 using CUOIKI_EF.Controllers;
@@ -193,8 +194,8 @@ namespace CompanyManagement.ViewModels
             ToBeSavedProjectName = "";
             ToBeSavedProjectDescription = "";
             ProjectID = "";
-            //var prjForm = new ProjectForm(this);
-            //prjForm.Show();
+            var prjForm = new ProjectForm(this);
+            prjForm.Show();
         }
         #endregion
 
@@ -209,11 +210,12 @@ namespace CompanyManagement.ViewModels
         }
         private void EditProject()
         {
-            //var prjForm = new ProjectForm(this);
-            //prjForm.Show();
+            var prjForm = new ProjectForm(this);
+            prjForm.Show();
         }
         private void DeleteProject()
         {
+            MessageBox.Show(TaskAssignmentState.SelectedProject.ID.ToString());
             dbController.Delete(TaskAssignmentState.SelectedProject);
             fetchProjectList();
         }
