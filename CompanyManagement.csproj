@@ -196,11 +196,18 @@
     <Compile Include="Enums\TaskStatus.cs" />
     <Compile Include="Enums\WorkSessionStatus.cs" />
     <Compile Include="Factories\EmployeeFactory.cs" />
+    <Compile Include="Factories\ProjectFactory.cs" />
+    <Compile Include="HelperClasses\RelayCommand.cs" />
     <Compile Include="States\LoginInfoState.cs" />
     <Compile Include="States\TaskAssignmentState.cs" />
+    <Compile Include="UI\Manager\ProjectPage.xaml.cs">
+      <DependentUpon>ProjectPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Manager\UI_ManagerForm.xaml.cs">
       <DependentUpon>UI_ManagerForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ProjectPageViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -226,6 +233,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Manager\ProjectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Manager\UI_ManagerForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,0 +1,129 @@
+﻿<Page x:Class="CompanyManagement.UI.Manager.ProjectPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:local="clr-namespace:CompanyManagement.UI.Manager"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProjectPage">
+
+    <Page.Resources>
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="12 8" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontFamily" Value="Open Sans"/>
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1565C0" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#0D47A1" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Content="Projects" FontSize="36" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <WrapPanel Grid.Column="2" VerticalAlignment="Center">
+            <Button Content="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AddProjectClickCommand}"/>
+            <Button
+                HorizontalAlignment="Center" Margin="30 0 0 0"
+                Command="{Binding ReloadCommand}">
+                <Icon:PackIconMaterial 
+                Kind="Reload" 
+                HorizontalAlignment="Center" Height="12" />
+            </Button>
+        </WrapPanel>
+
+        <ScrollViewer Width="800" Height="480" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" x:Name="MyScrollViewer" VerticalScrollBarVisibility="Visible">
+            <ItemsControl ItemsSource="{Binding ProjectWrappers}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="800"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button 
+                            ToolTip="{Binding TooltipString}"
+                            Style="{StaticResource CustomButtonStyle}"
+                            Margin="10 20 10 20" 
+                            Width="200" Height="100"
+                            Click="Button_Click"
+                            Command="{Binding Path=DataContext.ProjectItemClickCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                            CommandParameter="{Binding ID}"
+                            PreviewMouseRightButtonDown="Button_PreviewMouseRightButtonDown"
+                            Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        >
+                            <Button.ContextMenu>
+                                <ContextMenu Name="cm" StaysOpen="true" 
+                                             DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem 
+                                        Name="ViewMenuItem"
+                                        Command="{Binding DataContext.CmdViewProject}"
+                                        Click="ViewMenuItem_Click"
+                                        Header="View"/>
+                                    <MenuItem 
+                                        Command="{Binding DataContext.CmdEditProject}" 
+                                        Header="Edit"/>
+                                    <MenuItem 
+                                        Command="{Binding DataContext.CmdDeleteProject}" 
+                                        Header="Delete"/>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                            <StackPanel Height="auto" Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" Margin="5,0"></TextBlock>
+                                <TextBlock Text="{Binding Description}" Height="22" MaxHeight="22" TextTrimming="CharacterEllipsis" Margin="5,0"></TextBlock>
+                                <Grid>
+                                    <ProgressBar  Margin="5 5" Width="160" MinHeight="14" Minimum="0" Maximum="100" 
+                                                      Value="{Binding PercentDone}" 
+                                                      Style="{x:Null}" 
+                                                      Foreground="{Binding BarColor}"></ProgressBar>
+                                    <TextBlock FontWeight="Bold" FontSize="12" Padding="10" Foreground="Black" Text="{Binding TooltipString}"></TextBlock>
+                                </Grid>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Button x:Name="Back_click" Grid.Column="0"
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Left"
+                Margin="40 0 0 0"
+                Cursor="No"
+                Background="#456789">
+            <TextBlock Text="←" FontSize="30" Margin="0 -11 0 0"/>
+        </Button>
+    </Grid>
+</Page>
