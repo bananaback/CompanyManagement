@@ -5,10 +5,7 @@ using CompanyManagement.States;
 using CompanyManagement.UI.Human_Resource;
 using CompanyManagement.UI.Manager;
 using CompanyManagement.UI.Staff;
-<<<<<<< HEAD
 using CompanyManagement.UI.TechLead;
-=======
->>>>>>> 1855c542ed21d618d4b3c62e2d087a4cbef6e8ab
 using System;
 using System.Windows;
 
@@ -51,8 +48,8 @@ namespace CompanyManagement
             }
             else if (foundEmployee.Role == Role.TechLead.ToString())
             {
-                //UI_TechLeadForm uI_TechLeadForm = new UI_TechLeadForm();
-                //uI_TechLeadForm.Show();
+                UI_TechLeadForm uI_TechLeadForm = new UI_TechLeadForm();
+                uI_TechLeadForm.Show();
             }
             else
             {
