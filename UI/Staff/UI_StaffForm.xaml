@@ -1,0 +1,125 @@
+﻿<Window x:Class="CompanyManagement.UI.Staff.UI_StaffForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CompanyManagement.UI.Staff"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        mc:Ignorable="d"
+        Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" WindowState="Normal" ResizeMode="NoResize" 
+        Title="UI_StaffForm">
+    <Border Background="Linen" CornerRadius="30" BorderThickness="3" BorderBrush="DarkKhaki"
+            MouseDown="Border_MouseDown" >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Menu -->
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--Menu icon-->
+
+                <Border Grid.Row="1" Background="#125178" CornerRadius="30 10 10 30" Margin="5"
+                        BorderThickness="2" BorderBrush="DarkKhaki">
+                    <DockPanel>
+                        <!--Menu Logo-->
+
+
+                        <Border Width="80" Height="80" Padding="3" Background="White" CornerRadius="100"
+                                DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="50 55 0 0">
+                            <Ellipse>
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="account.png"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Border>
+
+                        <!--Menu title-->
+
+                        <TextBlock Text="Staff Account" Foreground="White" FontSize="21" FontWeight="SemiBold"
+                                   DockPanel.Dock="Top" TextAlignment="Center" Margin="0 25 0 10"/>
+
+                        <!--Menu seprator-->
+
+                        <Separator Margin="25" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
+
+                        <!--Menu button-->
+
+                        <StackPanel DockPanel.Dock="Top">
+
+                            <Button x:Name="btn_Information" Style="{StaticResource menuButton}" Click="btn_Information_click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Information" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Information" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="btn_CalcSalary" Style="{StaticResource menuButton}" Click="btn_CalcSalary_click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Sale" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Calculate Salary" FontSize="15"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button x:Name="btn_WorkSession" Style="{StaticResource menuButton}" Click="btn_WorkSession_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="Account" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Work session" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="btn_ViewTask" Style="{StaticResource menuButton}" Click="btn_ViewTask_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="CheckboxMarkedCircleOutline"  Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="View my tasks" FontSize="13"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="btn_LeaveOfAbsence" Style="{StaticResource menuButton}" Click="btn_LeaveOfAbsence_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Icon:PackIconMaterial Kind="AccountCancelOutline" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Leave of Absence" FontSize="13"/>
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+
+                        <!--<StackPanel Orientation="Horizontal" Margin="10 0 010 15" VerticalAlignment="Center" 
+                                    Width="auto" Height="35">
+                            <materialDesign:PackIcon Kind="MoonAndStars" 
+                                                     VerticalAlignment="Center"
+                                                     Margin="0 0 10 0"/>
+                            <TextBlock VerticalAlignment="Center" Text="Dark Mode" FontWeight="SemiBold"/>
+                            <ToggleButton x:Name="themeToggle"
+                                          IsChecked="False"
+                                          Cursor="Hand" 
+                                          ToolTip="Enable Dark Mode"
+                                          Margin=" 12 0 8 0"/>
+
+                        </StackPanel>-->
+
+                        <Button x:Name="btnLogOut" Style="{StaticResource menuButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20" Click="LogOut_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Log out" FontSize="15"/>
+                            </StackPanel>
+                        </Button>
+
+                    </DockPanel>
+                </Border>
+
+            </Grid>
+
+            <!--Right menu-->
+            <Grid Grid.Column="1">
+                <Border Grid.Row="1" CornerRadius="0 0 5 0" Background="Transparent">
+                    <Frame x:Name="frameContent" NavigationUIVisibility="Hidden" Margin="10"/>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
