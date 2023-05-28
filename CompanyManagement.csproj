@@ -187,6 +187,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enums\EmployeeStatus.cs" />
+    <Compile Include="Enums\EnumMapper.cs" />
+    <Compile Include="Enums\FilterLogicType.cs" />
+    <Compile Include="Enums\FilterName.cs" />
+    <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Enums\Role.cs" />
+    <Compile Include="Enums\TaskStatus.cs" />
+    <Compile Include="Enums\WorkSessionStatus.cs" />
+    <Compile Include="Factories\EmployeeFactory.cs" />
+    <Compile Include="States\LoginInfoState.cs" />
+    <Compile Include="States\TaskAssignmentState.cs" />
+    <Compile Include="UI\Manager\UI_ManagerForm.xaml.cs">
+      <DependentUpon>UI_ManagerForm.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -195,6 +209,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\DbController.cs" />
+    <Compile Include="Controllers\WorkSessionController.cs" />
     <Compile Include="EF\CompanyContext.cs" />
     <Compile Include="EF\Employee.cs" />
     <Compile Include="EF\Project.cs" />
@@ -209,6 +226,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Manager\UI_ManagerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -237,7 +258,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UI\Manager\manager.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
